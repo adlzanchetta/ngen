@@ -8,28 +8,43 @@ At present, there is no supported standard installation process.
 
 The quickest way to build and run NGEN is to follow what we do for our [model run testing](./docker/CENTOS_NGEN_RUN.dockerfile):
 
-First we make a new directory:
-`mkdir ngen && cd ngen`
+First clone the Github repository:
 
-Then clone the github repository:
-`git clone https://github.com/NOAA-OWP/ngen.git`
+```shell
+git clone https://github.com/NOAA-OWP/ngen.git
+````
 
-Then we can build with docker:
-`docker build . --file ./docker/CENTOS_NGEN_RUN.dockerfile --tag localbuild/ngen:latest`
+The content will be downloaded into a new folder `ngen` in the current directory. Enter the new directory
+
+```shell
+cd ngen
+```
+
+And build the Docker image:
+
+```shell
+docker build . --file ./docker/CENTOS_NGEN_RUN.dockerfile --tag localbuild/ngen:latest
+```
+
+If everything went right, the Docker image can be run with:
+
+```shel
+docker run localbuild/ngen
+```
 
 ## Building manually:
 
 **Install the Linux required packages (package names shown for Centos 8.4.2105):**
 
-`
+```shell
 yum install tar git gcc-c++ gcc make cmake python38 python38-devel python38-numpy bzip2 udunits2-devel texinfo
-`
+```
 
 **Make a directory to contain all the NGEN items:**
 
-`
+```shell
 mkdir ngen && cd ngen
-`
+```
 
 
 **Download the Boost Libraries:**
