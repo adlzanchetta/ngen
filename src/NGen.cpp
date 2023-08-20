@@ -343,6 +343,9 @@ int main(int argc, char *argv[]) {
         auto r = features.catchment_at(id);
         //TODO redesign to avoid this cast
         auto r_c = dynamic_pointer_cast<realization::Catchment_Formulation>(r);
+
+        // TODO adlz - find a way to read the time step from the config file catchment-wise
+
         double response = r_c->get_response(output_time_index, 3600.0);
         std::string output = std::to_string(output_time_index)+","+current_timestamp+","+
                              r_c->get_output_line_for_timestep(output_time_index)+"\n";

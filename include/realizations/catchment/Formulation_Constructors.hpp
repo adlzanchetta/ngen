@@ -16,6 +16,7 @@
 #include "Bmi_Py_Formulation.hpp"
 #include <GenericDataProvider.hpp>
 #include "CsvPerFeatureForcingProvider.hpp"
+#include "CsvPerFeatureDailyForcingProvider.hpp"
 #ifdef NETCDF_ACTIVE
     #include "NetCDFPerFeatureDataProvider.hpp"
 #endif
@@ -66,6 +67,9 @@ namespace realization {
         std::shared_ptr<data_access::GenericDataProvider> fp;
         if (forcing_config.provider == "CsvPerFeature" || forcing_config.provider == ""){
             fp = std::make_shared<CsvPerFeatureForcingProvider>(forcing_config);
+        }
+        else if (forcing_config.provider == "CsvPerFeatureDaily"){
+            fp = std::make_shared<CsvPerFeatureDailyForcingProvider>(forcing_config);
         }
 #ifdef NETCDF_ACTIVE
         else if (forcing_config.provider == "NetCDF"){
