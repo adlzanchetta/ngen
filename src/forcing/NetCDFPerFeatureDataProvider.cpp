@@ -161,7 +161,12 @@ NetCDFPerFeatureDataProvider::NetCDFPerFeatureDataProvider(std::string input_pat
         }
 
         // set time unit and scale factor
-        if ( time_unit_str == "h" || time_unit_str == "hours")
+        if ( time_unit_str == "d" || time_unit_str == "days")
+        {
+            time_unit = TIME_DAYS;
+            time_scale_factor = 3600*24;
+        }
+        else if ( time_unit_str == "h" || time_unit_str == "hours")
         {
             time_unit = TIME_HOURS;
             time_scale_factor = 3600;

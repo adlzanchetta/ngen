@@ -108,9 +108,9 @@ namespace ngen
                 double response_m_s = response * (area * 1000000);
                 //TODO put this somewhere else as well, for now, an implicit assumption is that a module's get_response returns
                 //m/timestep
-                //since we are operating on a 1 hour (3600s) dt, we need to scale the output appropriately
-                //so no response is m^2/hr...m^2/hr * 1hr/3600s = m^3/hr
-                double response_m_h = response_m_s / 3600.0;
+                //since we are operating on a 1 day (3600s/h * 24hr/d) dt, we need to scale the output appropriately
+                //so no response is m^2/hr...m^2/hr * 1hr/(3600s*24h/d) = m^3/hr
+                double response_m_h = response_m_s / (3600.0*24.0);
                 //update the nexus with this flow
                 for(auto& nexus : features.destination_nexuses(id)) {
                     //TODO in a DENDRITIC network, only one destination nexus per catchment

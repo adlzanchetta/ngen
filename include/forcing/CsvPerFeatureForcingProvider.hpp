@@ -85,7 +85,7 @@ class CsvPerFeatureForcingProvider : public data_access::GenericDataProvider
         }
         size_t i = 0;
         // 1 hour
-        time_t seconds_in_time_step = 3600;
+        time_t seconds_in_time_step = 3600 * 24;
         time_t time = start_date_time_epoch;
         while (epoch_time >= time + seconds_in_time_step && time < end_date_time_epoch) {
            i++;
@@ -93,7 +93,7 @@ class CsvPerFeatureForcingProvider : public data_access::GenericDataProvider
         }
         // The end_date_time_epoch is the epoch value of the BEGINNING of the last time step, not its end.
         // I.e., to make sure we cover it, we have to go another time step beyond.
-        if (time >= end_date_time_epoch + 3600) {
+        if (time >= end_date_time_epoch + (3600*24)) {
             throw std::out_of_range("Forcing had bad beyond-end time for index query: " + std::to_string(epoch_time));
         }
         else {
@@ -131,10 +131,10 @@ class CsvPerFeatureForcingProvider : public data_access::GenericDataProvider
         std::vector<long> involved_time_step_seconds;
         long ts_involved_s;
 
-        time_t first_time_step_start_epoch = start_date_time_epoch + (current_index * 3600);
+        time_t first_time_step_start_epoch = start_date_time_epoch + (current_index * 3600 * 24);
         // Handle the first time step differently, since we need to do more to figure out how many seconds came from it
         // Total time step size minus the offset of the beginning, before the init time
-        ts_involved_s = 3600 - (init_time - first_time_step_start_epoch);
+        ts_involved_s = (3600*24) - (init_time - first_time_step_start_epoch);
 
         involved_time_step_seconds.push_back(ts_involved_s);
         involved_time_step_values.push_back(get_value_for_param_name(output_name, current_index));
@@ -144,7 +144,7 @@ class CsvPerFeatureForcingProvider : public data_access::GenericDataProvider
         while (time_remaining > 0) {
             if(current_index >= time_epoch_vector.size())
                 return involved_time_step_values[involved_time_step_values.size()-1]; //TODO: Is this the right answer? Is returning any value off the end of the range valid?
-            ts_involved_s = time_remaining > 3600 ? 3600 : time_remaining;
+            ts_involved_s = time_remaining > (3600*24) ? (3600*24) : time_remaining;
             involved_time_step_seconds.push_back(ts_involved_s);
             involved_time_step_values.push_back(get_value_for_param_name(output_name, current_index));
             time_remaining -= ts_involved_s;
@@ -154,7 +154,7 @@ class CsvPerFeatureForcingProvider : public data_access::GenericDataProvider
         double value = 0;
         for (size_t i = 0; i < involved_time_step_values.size(); ++i) {
             if (is_param_sum_over_time_step(output_name))
-                value += involved_time_step_values[i] * ((double)involved_time_step_seconds[i] / 3600.0);
+                value += involved_time_step_values[i] * ((double)involved_time_step_seconds[i] / (3600.0*24));
             else
                 value += involved_time_step_values[i] * ((double)involved_time_step_seconds[i] / (double)selector.get_duration_secs());
         }

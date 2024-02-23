@@ -31,7 +31,7 @@ namespace hy_features {
      * for(const auto& id : features.catchments()) {
      *     auto r = features.catchment_at(id);
      *     auto r_c = dynamic_pointer_cast<realization::Catchment_Formulation>(r);
-     *     double response = r_c->get_response(time_index, 3600.0);
+     *     double response = r_c->get_response(time_index, 3600.0 * 24.0);
      *     std::string output = std::to_string(time_index)+", examlpe_time_stamp,"+
      *                          r_c->get_output_line_for_timestep(time_index)+"\n";
      *     r_c->write_output(output);

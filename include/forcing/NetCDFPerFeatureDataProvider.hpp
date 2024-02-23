@@ -36,6 +36,7 @@ namespace data_access
 
         enum TimeUnit
         {
+            TIME_DAYS,
             TIME_HOURS,
             TIME_MINUTES,
             TIME_SECONDS,

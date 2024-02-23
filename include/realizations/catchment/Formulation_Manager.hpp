@@ -145,7 +145,7 @@ namespace realization {
                         // extract and store layer data from the json
                         layer_desc.name = "surface layer";
                         layer_desc.id = 0;
-                        layer_desc.time_step = 3600;
+                        layer_desc.time_step = 3600 * 24;
                         layer_desc.time_step_units = "s";
 
                         // add the layer to storage
